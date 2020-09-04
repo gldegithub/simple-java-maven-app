@@ -2,10 +2,16 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
+            args ' -u root -v /home/jenkins/mvnrepo:/root/.m2'
         }
     }
     stages {
+        stage('Pull Git Demo') {
+            steps{
+                //拉取代码
+            	git 'https://github.com/gldegithub/simple-java-maven-app.git'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
